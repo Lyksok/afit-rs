@@ -30,6 +30,20 @@ pub fn gcd(a: i32, b: i32) -> i32 {
  * @param b non-zero integer.
  */
 pub fn bezout(a: i32, b: i32) -> (i32, i32, i32) {
+    let mut a = a;
+    let mut b = b;
+    let (mut u1, mut v1, mut u2, mut v2) = (1, 0, 0, 1);
+
+    while a > 0 {
+        let (q, r) = div(a, b);
+        if r == 0 {
+            return (u2, v2, b);
+        } else {
+            a = b;
+            b = r;
+            (u1, v1, u2, v2) = (u2, v2, u1 - q * u2, v1 - q * v2);
+        }
+    }
     (0, 0, 0)
 }
 
@@ -51,7 +65,30 @@ pub fn test_gcd() {
     }
 }
 
+pub fn test_bezout() {
+    let cases = vec![
+        ((18, 22), (5, -4, 2)),
+        ((22, 18), (-4, 5, 2)),
+        ((17, 21), (5, -4, 1)),
+        ((21, 17), (-4, 5, 1)),
+    ];
+
+    for ele in cases {
+        let result = bezout(ele.0 .0, ele.0 .1);
+        if result == ele.1 {
+            println!("bezout({},{})={:?} passed", ele.0 .0, ele.0 .1, result);
+        } else {
+            println!(
+                "bezout({},{})={:?} error: expected {:?}",
+                ele.0 .0, ele.0 .1, result, ele.1
+            );
+        }
+    }
+}
+
 pub fn test_basic_arithmetics() {
     test_gcd();
-    println!()
+    println!();
+    test_bezout();
+    println!();
 }
