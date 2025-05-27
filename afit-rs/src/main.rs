@@ -1,5 +1,8 @@
-use afit_rs::builtin::builtins;
+use afit_rs::builtin;
 
 fn main() {
-    builtins::test_builtins();
+    builtin::builtins::test_builtins();
+    println!();
+    builtin::basic_arithmetics::test_basic_arithmetics();
+    println!();
 }

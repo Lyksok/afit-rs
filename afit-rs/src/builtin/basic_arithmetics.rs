@@ -1,9 +1,26 @@
+use super::builtins::{div, sign};
+
 /* Greater common (positive) divisor of two non-zero integers.
  * @param a non-zero integer
  * @param b non-zero integer
  */
 pub fn gcd(a: i32, b: i32) -> i32 {
-    0
+    let mut a = a * sign(a);
+    let mut b = b * sign(b);
+
+    while a > 0 {
+        if a < b {
+            (a, b) = (b, a);
+        }
+        let (q, r) = div(a, b);
+        if r == 0 {
+            return a;
+        } else {
+            b = q;
+            a = r;
+        }
+    }
+    1
 }
 
 /* Extended euclidean division of two integers NOT RUST DEFAULT
@@ -16,4 +33,25 @@ pub fn bezout(a: i32, b: i32) -> (i32, i32, i32) {
     (0, 0, 0)
 }
 
-pub fn test_basic_arithmetics() {}
+// ========================= TESTING =========================
+
+pub fn test_gcd() {
+    let cases = vec![((32, 6), 2), ((18, 12), 6), ((-18, -12), 6)];
+
+    for ele in cases {
+        let result = gcd(ele.0 .0, ele.0 .1);
+        if result == ele.1 {
+            println!("gcd({},{})={} passed", ele.0 .0, ele.0 .1, result);
+        } else {
+            println!(
+                "gcd({},{})={} error: expected {}",
+                ele.0 .0, ele.0 .1, result, ele.1
+            );
+        }
+    }
+}
+
+pub fn test_basic_arithmetics() {
+    test_gcd();
+    println!()
+}
