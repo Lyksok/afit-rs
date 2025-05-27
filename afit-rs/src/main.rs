@@ -5,4 +5,6 @@ fn main() {
     println!();
     builtin::basic_arithmetics::test_basic_arithmetics();
     println!();
+    builtin::power::test_powers();
+    println!();
 }
