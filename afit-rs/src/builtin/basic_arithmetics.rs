@@ -8,7 +8,7 @@ pub fn gcd(a: i32, b: i32) -> i32 {
     let mut a = a * sign(a);
     let mut b = b * sign(b);
 
-    while a > 0 {
+    loop {
         if a < b {
             (a, b) = (b, a);
         }
@@ -20,7 +20,6 @@ pub fn gcd(a: i32, b: i32) -> i32 {
             a = r;
         }
     }
-    1
 }
 
 /* Extended euclidean division of two integers NOT RUST DEFAULT
@@ -34,7 +33,7 @@ pub fn bezout(a: i32, b: i32) -> (i32, i32, i32) {
     let mut b = b;
     let (mut u1, mut v1, mut u2, mut v2) = (1, 0, 0, 1);
 
-    while a > 0 {
+    loop {
         let (q, r) = div(a, b);
         if r == 0 {
             return (u2, v2, b);
@@ -44,7 +43,6 @@ pub fn bezout(a: i32, b: i32) -> (i32, i32, i32) {
             (u1, v1, u2, v2) = (u2, v2, u1 - q * u2, v1 - q * v2);
         }
     }
-    (0, 0, 0)
 }
 
 // ========================= TESTING =========================
