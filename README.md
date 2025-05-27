@@ -5,7 +5,9 @@ build first standard ciphering algorithms ; main aim being *RSA* and
 *ElGamal* cryptosystems. Among other things we hope that you'll have
 an first understanding of the difficulties underlying the need to use
 big enough integer on a physical architecture which, by definition,
-cannot handle infinitely big integers efficiently.
+cannot handle infinitely big integers efficiently.<br>
+Note that initally the project was in OCaml but I choose to do it in
+Rust for educational purposes.
 
 ## Notional content
 
