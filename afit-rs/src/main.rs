@@ -7,4 +7,6 @@ fn main() {
     println!();
     builtin::power::test_powers();
     println!();
+    builtin::test_primes::test_test_primes();
+    println!();
 }
