@@ -54,7 +54,7 @@ pub fn mod_power(x: i32, n: i32, m: i32) -> i32 {
    @param p prime modular base
 */
 pub fn prime_mod_power(x: i32, n: i32, p: i32) -> i32 {
-    mod_power(x, n, p)
+    mod_power(x, n, p) // this is not the way to do but for now I will leave it like this
 }
 
 // ========================= TESTING =========================
