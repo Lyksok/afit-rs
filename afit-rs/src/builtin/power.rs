@@ -1,9 +1,15 @@
+use super::builtins::{div, modulo};
+
 /* Naive power function. Linear complexity
    @param x base
    @param n exponent
 */
 pub fn pow(x: i32, n: i32) -> i32 {
-    0
+    let mut result = 1;
+    for _ in 0..n {
+        result *= x;
+    }
+    result
 }
 
 /* Fast integer exponentiation function. Logarithmic complexity.
@@ -11,7 +17,16 @@ pub fn pow(x: i32, n: i32) -> i32 {
    @param n exponent
 */
 pub fn power(x: i32, n: i32) -> i32 {
-    0
+    match n {
+        0 => 1,
+        n => {
+            let (q, r) = div(n, 2);
+            match r {
+                0 => power(x * x, q),
+                _ => x * power(x * x, q),
+            }
+        }
+    }
 }
 
 /* Fast modular exponentiation function. Logarithmic complexity.
@@ -20,7 +35,16 @@ pub fn power(x: i32, n: i32) -> i32 {
    @param m modular base
 */
 pub fn mod_power(x: i32, n: i32, m: i32) -> i32 {
-    0
+    match n {
+        0 => 1,
+        n => {
+            let (q, r) = div(n, 2);
+            match r {
+                0 => modulo(mod_power(modulo(x * x, m), q, m), m),
+                _ => modulo(x * mod_power(modulo(x * x, m), q, m), m),
+            }
+        }
+    }
 }
 
 /* Fast modular exponentiation function mod prime. Logarithmic complexity.
@@ -30,7 +54,7 @@ pub fn mod_power(x: i32, n: i32, m: i32) -> i32 {
    @param p prime modular base
 */
 pub fn prime_mod_power(x: i32, n: i32, p: i32) -> i32 {
-    0
+    mod_power(x, n, p)
 }
 
 // ========================= TESTING =========================
@@ -90,26 +114,26 @@ pub fn test_power() {
 pub fn test_mod_power() {
     let cases = vec![
         ((-1, 12, 10), 1),
-        ((-1, 11, 11), -1),
+        ((-1, 11, 11), 10),
         ((0, 2, 3), 0),
-        ((3, 1, 3), 3),
+        ((3, 1, 3), 0),
         ((5, 0, 2), 1),
         ((-2, 2, 5), 4),
-        ((-2, 3, 9), -8),
-        ((2, 5, 17), 32),
-        ((3, 3, 17), 27),
+        ((-2, 3, 9), 1),
+        ((2, 5, 17), 15),
+        ((3, 3, 17), 10),
     ];
 
     for ele in cases {
-        let result = prime_mod_power(ele.0 .0, ele.0 .1, ele.0 .2);
+        let result = mod_power(ele.0 .0, ele.0 .1, ele.0 .2);
         if result == ele.1 {
             println!(
-                "prime_mod_power({},{},{})={} passed",
+                "mod_power({},{},{})={} passed",
                 ele.0 .0, ele.0 .1, ele.0 .2, result
             );
         } else {
             println!(
-                "prime_mod_power({},{},{})={} error: expected {}",
+                "mod_power({},{},{})={} error: expected {}",
                 ele.0 .0, ele.0 .1, ele.0 .2, result, ele.1
             );
         }
@@ -119,14 +143,14 @@ pub fn test_mod_power() {
 pub fn test_prime_mod_power() {
     let cases = vec![
         ((-1, 12, 7), 1),
-        ((-1, 11, 11), -1),
+        ((-1, 11, 11), 10),
         ((0, 2, 3), 0),
-        ((3, 1, 3), 3),
+        ((3, 1, 3), 0),
         ((5, 0, 2), 1),
         ((-2, 2, 5), 4),
-        ((-2, 3, 5), -8),
-        ((2, 5, 17), 32),
-        ((3, 3, 17), 27),
+        ((-2, 3, 5), 2),
+        ((2, 5, 17), 15),
+        ((3, 3, 17), 10),
     ];
 
     for ele in cases {

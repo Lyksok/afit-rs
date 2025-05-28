@@ -34,22 +34,11 @@ pub fn quot(a: i32, b: i32) -> i32 {
    @param b moduli integer.
 */
 pub fn modulo(a: i32, b: i32) -> i32 {
-    match sign(a) {
-        -1 => {
-            let mut a = a;
-            while a < 0 {
-                a += b;
-            }
-            a
-        }
-        1 => {
-            let mut a = a;
-            while a >= b {
-                a -= b;
-            }
-            a
-        }
-        _ => 0,
+    let b = if b < 0 { -b } else { b };
+    match a {
+        a if a * sign(a) >= b => modulo(a - b * sign(a), b),
+        a if a < 0 => a + b,
+        a => a,
     }
 }
 
