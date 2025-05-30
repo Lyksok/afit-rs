@@ -1,4 +1,6 @@
 use super::{builtins::modulo, test_primes::is_prime};
+use std::fs;
+use std::io::{Read, Write};
 
 /* List composed of 2 and then odd integers starting at 3.
    @param n limit of list of odd integers, minimum value is 2.
@@ -42,13 +44,25 @@ pub fn eratosthenes(n: i32) -> Vec<i32> {
     @param n limit of prime numbers up to which to build up a list of primes.
     @param file path to write to.
 */
-pub fn write_list_primes(n: i32, file: &str) {}
+pub fn write_list_primes(n: i32, file: &str) {
+    let mut file = fs::File::create(file).unwrap();
+
+    for elt in eratosthenes(n) {
+        let _ = writeln!(file, "{}", elt);
+    }
+}
 
 /* Load list of primes into Rust environment.
    @param file path to load from.
 */
 pub fn read_list_primes(file: &str) -> Vec<i32> {
-    vec![]
+    let mut file = fs::File::open(file).unwrap();
+    let mut content = String::new();
+    let _ = file.read_to_string(&mut content);
+    content
+        .split('\n')
+        .filter_map(|elt| elt.trim().parse().ok())
+        .collect()
 }
 
 /* Get biggest prime.
@@ -158,11 +172,29 @@ pub fn test_double_primes() {
     }
 }
 
+pub fn test_twin_primes() {
+    let cases = vec![((20, is_prime), vec![(3, 5), (5, 7), (11, 13), (17, 19)])];
+
+    for ele in cases {
+        let result = twin_primes(ele.0 .0, ele.0 .1);
+        if result == ele.1 {
+            println!("twin_primes({},is_prime)={:?} passed", ele.0 .0, result);
+        } else {
+            println!(
+                "twin_primes({},is_prime)={:?} error: expected {:?}",
+                ele.0 .0, result, ele.1
+            );
+        }
+    }
+}
+
 pub fn test_generate_primes() {
     test_init_eratosthenes();
     println!();
     test_eratosthenes();
     println!();
     test_double_primes();
+    println!();
+    test_twin_primes();
     println!();
 }
