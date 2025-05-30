@@ -10,6 +10,9 @@ fn main() {
     println!();
     builtin::test_primes::test_test_primes();
     println!();
-    */
     builtin::generate_primes::test_generate_primes();
+    println!();
+    */
+    builtin::ciphers::test_ciphers();
+    println!();
 }
