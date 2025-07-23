@@ -5,7 +5,7 @@ use std::io::{Read, Write};
 /* List composed of 2 and then odd integers starting at 3.
    @param n limit of list of odd integers, minimum value is 2.
 */
-pub fn init_eratosthenes(n: i32) -> Vec<i32> {
+pub fn init_eratosthenes(n: i64) -> Vec<i64> {
     if n < 2 {
         panic!("n must be >= 2");
     }
@@ -19,7 +19,7 @@ pub fn init_eratosthenes(n: i32) -> Vec<i32> {
 /* Eratosthene sieve.
     @param n limit of list of primes, starting at 2.
 */
-pub fn eratosthenes(n: i32) -> Vec<i32> {
+pub fn eratosthenes(n: i64) -> Vec<i64> {
     if n < 2 {
         panic!("n must be >= 2");
     }
@@ -44,7 +44,7 @@ pub fn eratosthenes(n: i32) -> Vec<i32> {
     @param n limit of prime numbers up to which to build up a list of primes.
     @param file path to write to.
 */
-pub fn write_list_primes(n: i32, file: &str) {
+pub fn write_list_primes(n: i64, file: &str) {
     let mut file = fs::File::create(file).unwrap();
 
     for elt in eratosthenes(n) {
@@ -55,7 +55,7 @@ pub fn write_list_primes(n: i32, file: &str) {
 /* Load list of primes into Rust environment.
    @param file path to load from.
 */
-pub fn read_list_primes(file: &str) -> Vec<i32> {
+pub fn read_list_primes(file: &str) -> Vec<i64> {
     let mut file = fs::File::open(file).unwrap();
     let mut content = String::new();
     let _ = file.read_to_string(&mut content);
@@ -68,7 +68,7 @@ pub fn read_list_primes(file: &str) -> Vec<i32> {
 /* Get biggest prime.
    @param l list of prime numbers.
 */
-pub fn last_element(l: &[i32]) -> i32 {
+pub fn last_element(l: &[i64]) -> i64 {
     if l.is_empty() {
         panic!("The list must not be empty");
     }
@@ -78,7 +78,7 @@ pub fn last_element(l: &[i32]) -> i32 {
 /* Get two biggest primes.
    @param l list of prime numbers.
 */
-pub fn last_two(l: &[i32]) -> (i32, i32) {
+pub fn last_two(l: &[i64]) -> (i64, i64) {
     if l.len() < 2 {
         panic!("The len of the list must be >= 2");
     }
@@ -91,7 +91,7 @@ pub fn last_two(l: &[i32]) -> (i32, i32) {
    @param limit positive integer bounding searched for primes.
    @param isprime function testing for (pseudo)primality.
 */
-pub fn double_primes(limit: i32, isprime: fn(i32) -> bool) -> Vec<(i32, i32)> {
+pub fn double_primes(limit: i64, isprime: fn(i64) -> bool) -> Vec<(i64, i64)> {
     let init = eratosthenes(limit);
     let mut result = vec![];
     for elt in init {
@@ -106,7 +106,7 @@ pub fn double_primes(limit: i32, isprime: fn(i32) -> bool) -> Vec<(i32, i32)> {
    @param limit positive integer bounding searched for primes.
    @param isprime function testing for (pseudo)primality.
 */
-pub fn twin_primes(limit: i32, isprime: fn(i32) -> bool) -> Vec<(i32, i32)> {
+pub fn twin_primes(limit: i64, isprime: fn(i64) -> bool) -> Vec<(i64, i64)> {
     let init = eratosthenes(limit);
     let mut result = vec![];
     for elt in init {
@@ -160,13 +160,13 @@ pub fn test_double_primes() {
     let cases = vec![((20, is_prime), vec![(2, 5), (3, 7), (5, 11), (11, 23)])];
 
     for ele in cases {
-        let result = double_primes(ele.0 .0, ele.0 .1);
+        let result = double_primes(ele.0.0, ele.0.1);
         if result == ele.1 {
-            println!("double_primes({},is_prime)={:?} passed", ele.0 .0, result);
+            println!("double_primes({},is_prime)={:?} passed", ele.0.0, result);
         } else {
             println!(
                 "double_primes({},is_prime)={:?} error: expected {:?}",
-                ele.0 .0, result, ele.1
+                ele.0.0, result, ele.1
             );
         }
     }
@@ -176,13 +176,13 @@ pub fn test_twin_primes() {
     let cases = vec![((20, is_prime), vec![(3, 5), (5, 7), (11, 13), (17, 19)])];
 
     for ele in cases {
-        let result = twin_primes(ele.0 .0, ele.0 .1);
+        let result = twin_primes(ele.0.0, ele.0.1);
         if result == ele.1 {
-            println!("twin_primes({},is_prime)={:?} passed", ele.0 .0, result);
+            println!("twin_primes({},is_prime)={:?} passed", ele.0.0, result);
         } else {
             println!(
                 "twin_primes({},is_prime)={:?} error: expected {:?}",
-                ele.0 .0, result, ele.1
+                ele.0.0, result, ele.1
             );
         }
     }

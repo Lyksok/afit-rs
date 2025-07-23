@@ -1,12 +1,8 @@
 /* Sign function
     @param x integer
 */
-pub fn sign(x: i32) -> i32 {
-    if x < 0 {
-        -1
-    } else {
-        1
-    }
+pub fn sign(x: i64) -> i64 {
+    if x < 0 { -1 } else { 1 }
 }
 
 /* Quotient of an integer by a natural number.
@@ -14,10 +10,10 @@ pub fn sign(x: i32) -> i32 {
     @param a dividend
     @param b natural number you divide by.
 */
-pub fn quot(a: i32, b: i32) -> i32 {
+pub fn quot(a: i64, b: i64) -> i64 {
     let s = sign(a);
     let mut a = a * s;
-    let mut q: i32 = 0;
+    let mut q = 0;
     while a >= b {
         q += 1;
         a -= b;
@@ -33,13 +29,13 @@ pub fn quot(a: i32, b: i32) -> i32 {
    @param a input integer
    @param b moduli integer.
 */
-pub fn modulo(a: i32, b: i32) -> i32 {
-    let b = if b < 0 { -b } else { b };
-    match a {
-        a if a * sign(a) >= b => modulo(a - b * sign(a), b),
-        a if a < 0 => a + b,
-        a => a,
+pub fn modulo(a: i64, b: i64) -> i64 {
+    let b = b.abs();
+    let mut res = a % b;
+    if res < 0 {
+        res += b;
     }
+    res
 }
 
 /* Division of an integer by a natural number. NOT RUST DEFAULT.
@@ -48,7 +44,7 @@ pub fn modulo(a: i32, b: i32) -> i32 {
    @param a dividend
    @param b integer you divide by.
 */
-pub fn div(a: i32, b: i32) -> (i32, i32) {
+pub fn div(a: i64, b: i64) -> (i64, i64) {
     let q = quot(a, b);
     let r = a - b * q;
     (q, r)
@@ -73,13 +69,13 @@ pub fn test_quot() {
     let cases = vec![((10, 3), 3), ((-10, 3), -4), ((10, 2), 5), ((-10, 2), -5)];
 
     for ele in cases {
-        let result = quot(ele.0 .0, ele.0 .1);
+        let result = quot(ele.0.0, ele.0.1);
         if result == ele.1 {
-            println!("quot({},{})={} passed", ele.0 .0, ele.0 .1, result);
+            println!("quot({},{})={} passed", ele.0.0, ele.0.1, result);
         } else {
             println!(
                 "quot({},{})={} error: expected {}",
-                ele.0 .0, ele.0 .1, result, ele.1
+                ele.0.0, ele.0.1, result, ele.1
             );
         }
     }
@@ -89,13 +85,13 @@ pub fn test_modulo() {
     let cases = vec![((10, 3), 1), ((-10, 3), 2), ((10, 2), 0), ((-10, 2), 0)];
 
     for ele in cases {
-        let result = modulo(ele.0 .0, ele.0 .1);
+        let result = modulo(ele.0.0, ele.0.1);
         if result == ele.1 {
-            println!("modulo({},{})={} passed", ele.0 .0, ele.0 .1, result);
+            println!("modulo({},{})={} passed", ele.0.0, ele.0.1, result);
         } else {
             println!(
                 "modulo({},{})={} error: expected {}",
-                ele.0 .0, ele.0 .1, result, ele.1
+                ele.0.0, ele.0.1, result, ele.1
             );
         }
     }
@@ -110,13 +106,13 @@ pub fn test_div() {
     ];
 
     for ele in cases {
-        let result = div(ele.0 .0, ele.0 .1);
+        let result = div(ele.0.0, ele.0.1);
         if result == ele.1 {
-            println!("modulo({},{})={:?} passed", ele.0 .0, ele.0 .1, result);
+            println!("modulo({},{})={:?} passed", ele.0.0, ele.0.1, result);
         } else {
             println!(
                 "modulo({},{})={:?} error: expected {:?}",
-                ele.0 .0, ele.0 .1, result, ele.1
+                ele.0.0, ele.0.1, result, ele.1
             );
         }
     }

@@ -4,7 +4,7 @@ use super::builtins::{div, modulo};
    @param x base
    @param n exponent
 */
-pub fn pow(x: i32, n: i32) -> i32 {
+pub fn pow(x: i64, n: i64) -> i64 {
     let mut result = 1;
     for _ in 0..n {
         result *= x;
@@ -16,7 +16,7 @@ pub fn pow(x: i32, n: i32) -> i32 {
    @param x base
    @param n exponent
 */
-pub fn power(x: i32, n: i32) -> i32 {
+pub fn power(x: i64, n: i64) -> i64 {
     match n {
         0 => 1,
         n => {
@@ -34,7 +34,7 @@ pub fn power(x: i32, n: i32) -> i32 {
    @param n exponent
    @param m modular base
 */
-pub fn mod_power(x: i32, n: i32, m: i32) -> i32 {
+pub fn mod_power(x: i64, n: i64, m: i64) -> i64 {
     match n {
         0 => 1,
         n => {
@@ -53,7 +53,7 @@ pub fn mod_power(x: i32, n: i32, m: i32) -> i32 {
    @param n exponent
    @param p prime modular base
 */
-pub fn prime_mod_power(x: i32, n: i32, p: i32) -> i32 {
+pub fn prime_mod_power(x: i64, n: i64, p: i64) -> i64 {
     mod_power(x, n, p) // this is not the way to do but for now I will leave it like this
 }
 
@@ -73,13 +73,13 @@ pub fn test_pow() {
     ];
 
     for ele in cases {
-        let result = pow(ele.0 .0, ele.0 .1);
+        let result = pow(ele.0.0, ele.0.1);
         if result == ele.1 {
-            println!("pow({},{})={} passed", ele.0 .0, ele.0 .1, result);
+            println!("pow({},{})={} passed", ele.0.0, ele.0.1, result);
         } else {
             println!(
                 "pow({},{})={} error: expected {}",
-                ele.0 .0, ele.0 .1, result, ele.1
+                ele.0.0, ele.0.1, result, ele.1
             );
         }
     }
@@ -99,13 +99,13 @@ pub fn test_power() {
     ];
 
     for ele in cases {
-        let result = power(ele.0 .0, ele.0 .1);
+        let result = power(ele.0.0, ele.0.1);
         if result == ele.1 {
-            println!("power({},{})={} passed", ele.0 .0, ele.0 .1, result);
+            println!("power({},{})={} passed", ele.0.0, ele.0.1, result);
         } else {
             println!(
                 "power({},{})={} error: expected {}",
-                ele.0 .0, ele.0 .1, result, ele.1
+                ele.0.0, ele.0.1, result, ele.1
             );
         }
     }
@@ -125,16 +125,16 @@ pub fn test_mod_power() {
     ];
 
     for ele in cases {
-        let result = mod_power(ele.0 .0, ele.0 .1, ele.0 .2);
+        let result = mod_power(ele.0.0, ele.0.1, ele.0.2);
         if result == ele.1 {
             println!(
                 "mod_power({},{},{})={} passed",
-                ele.0 .0, ele.0 .1, ele.0 .2, result
+                ele.0.0, ele.0.1, ele.0.2, result
             );
         } else {
             println!(
                 "mod_power({},{},{})={} error: expected {}",
-                ele.0 .0, ele.0 .1, ele.0 .2, result, ele.1
+                ele.0.0, ele.0.1, ele.0.2, result, ele.1
             );
         }
     }
@@ -154,16 +154,16 @@ pub fn test_prime_mod_power() {
     ];
 
     for ele in cases {
-        let result = prime_mod_power(ele.0 .0, ele.0 .1, ele.0 .2);
+        let result = prime_mod_power(ele.0.0, ele.0.1, ele.0.2);
         if result == ele.1 {
             println!(
                 "prime_mod_power({},{},{})={} passed",
-                ele.0 .0, ele.0 .1, ele.0 .2, result
+                ele.0.0, ele.0.1, ele.0.2, result
             );
         } else {
             println!(
                 "prime_mod_power({},{},{})={} error: expected {}",
-                ele.0 .0, ele.0 .1, ele.0 .2, result, ele.1
+                ele.0.0, ele.0.1, ele.0.2, result, ele.1
             );
         }
     }

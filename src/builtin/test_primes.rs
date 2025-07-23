@@ -1,7 +1,7 @@
 use super::{builtins::modulo, power::mod_power};
 
 /* Deterministic primality test */
-pub fn is_prime(n: i32) -> bool {
+pub fn is_prime(n: i64) -> bool {
     let mut i = 2;
     while i * i <= n {
         if modulo(n, i) == 0 {
@@ -16,7 +16,7 @@ pub fn is_prime(n: i32) -> bool {
    @param p tested integer
    @param testSeq sequence of integers against which to test
 */
-pub fn is_pseudo_prime(p: i32, test_seq: &[i32]) -> bool {
+pub fn is_pseudo_prime(p: i64, test_seq: &[i64]) -> bool {
     for elt in test_seq {
         if mod_power(*elt, p, p) != modulo(*elt, p) {
             return false;
@@ -66,16 +66,16 @@ pub fn test_is_pseudo_prime() {
     ];
 
     for ele in cases {
-        let result = is_pseudo_prime(ele.0 .0, &ele.0 .1);
+        let result = is_pseudo_prime(ele.0.0, &ele.0.1);
         if result == ele.1 {
             println!(
                 "is_pseudo_prime({},{:?})={} passed",
-                ele.0 .0, ele.0 .1, result
+                ele.0.0, ele.0.1, result
             );
         } else {
             println!(
                 "is_pseudo_prime({},{:?})={} error: expected {}",
-                ele.0 .0, ele.0 .1, result, ele.1
+                ele.0.0, ele.0.1, result, ele.1
             );
         }
     }

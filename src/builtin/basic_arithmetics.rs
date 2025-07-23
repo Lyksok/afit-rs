@@ -4,7 +4,7 @@ use super::builtins::{div, sign};
  * @param a non-zero integer
  * @param b non-zero integer
  */
-pub fn gcd(a: i32, b: i32) -> i32 {
+pub fn gcd(a: i64, b: i64) -> i64 {
     let mut a = a * sign(a);
     let mut b = b * sign(b);
 
@@ -28,7 +28,7 @@ pub fn gcd(a: i32, b: i32) -> i32 {
  * @param a non-zero integer
  * @param b non-zero integer.
  */
-pub fn bezout(a: i32, b: i32) -> (i32, i32, i32) {
+pub fn bezout(a: i64, b: i64) -> (i64, i64, i64) {
     let mut a = a;
     let mut b = b;
     let (mut u1, mut v1, mut u2, mut v2) = (1, 0, 0, 1);
@@ -51,13 +51,13 @@ pub fn test_gcd() {
     let cases = vec![((32, 6), 2), ((18, 12), 6), ((-18, -12), 6)];
 
     for ele in cases {
-        let result = gcd(ele.0 .0, ele.0 .1);
+        let result = gcd(ele.0.0, ele.0.1);
         if result == ele.1 {
-            println!("gcd({},{})={} passed", ele.0 .0, ele.0 .1, result);
+            println!("gcd({},{})={} passed", ele.0.0, ele.0.1, result);
         } else {
             println!(
                 "gcd({},{})={} error: expected {}",
-                ele.0 .0, ele.0 .1, result, ele.1
+                ele.0.0, ele.0.1, result, ele.1
             );
         }
     }
@@ -72,13 +72,13 @@ pub fn test_bezout() {
     ];
 
     for ele in cases {
-        let result = bezout(ele.0 .0, ele.0 .1);
+        let result = bezout(ele.0.0, ele.0.1);
         if result == ele.1 {
-            println!("bezout({},{})={:?} passed", ele.0 .0, ele.0 .1, result);
+            println!("bezout({},{})={:?} passed", ele.0.0, ele.0.1, result);
         } else {
             println!(
                 "bezout({},{})={:?} error: expected {:?}",
-                ele.0 .0, ele.0 .1, result, ele.1
+                ele.0.0, ele.0.1, result, ele.1
             );
         }
     }
