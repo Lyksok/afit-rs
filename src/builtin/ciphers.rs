@@ -1,6 +1,9 @@
 /********** Cesar Cipher **********/
 
-use crate::builtin::basic_arithmetics::{bezout, gcd};
+use crate::builtin::{
+    basic_arithmetics::{bezout, gcd},
+    power::mod_power,
+};
 
 use super::builtins::modulo;
 
@@ -51,15 +54,15 @@ pub fn generate_keys_rsa(p: i64, q: i64) -> ((i64, i64), (i64, i64)) {
    @param pub_key a tuple (n, e) composing public key of RSA cryptosystem.
 */
 pub fn encrypt_rsa(m: i64, (n, e): (i64, i64)) -> i64 {
-    0
+    mod_power(m, e, n)
 }
 
 /* Decryption using RSA cryptosystem.
-   @param m integer hash of encrypter message.
+   @param m integer hash of encrypted message.
    @param pub_key a tuple (n, d) composing private key of RSA cryptosystem.
 */
-pub fn decrypt_rsa(m: i64, (n, e): (i64, i64)) -> i64 {
-    0
+pub fn decrypt_rsa(m: i64, (n, d): (i64, i64)) -> i64 {
+    mod_power(m, d, n)
 }
 
 /********** ElGamal Cipher **********/
@@ -176,11 +179,42 @@ pub fn test_generate_keys_rsa() {
     }
 }
 
+pub fn test_encrypt_rsa() {
+    let cases: Vec<((i64, (i64, i64)), i64)> = vec![((281237, (99400891, 36199003)), 70133953)];
+
+    for ele in cases {
+        let ((m, (n, e)), exp) = ele;
+        let result = encrypt_rsa(m, (n, e));
+        if result == exp {
+            println!("encrypt_rsa({m},({n},{e}))={result} passed");
+        } else {
+            println!("encrypt_rsa({m},({n},{e}))={result} error: expected {exp}");
+        }
+    }
+}
+
+pub fn test_decrypt_rsa() {
+    let cases: Vec<((i64, (i64, i64)), i64)> = vec![((70133953, (99400891, 30869683)), 281237)];
+
+    for ele in cases {
+        let ((m, (n, d)), exp) = ele;
+        let result = decrypt_rsa(m, (n, d));
+        if result == exp {
+            println!("encrypt_rsa({m},({n},{d}))={result} passed");
+        } else {
+            println!("encrypt_rsa({m},({n},{d}))={result} error: expected {exp}");
+        }
+    }
+}
+
 pub fn test_ciphers() {
     test_encrypt_cesar();
     println!();
     test_decrypt_cesar();
     println!();
     test_generate_keys_rsa();
-    println!()
+    println!();
+    test_encrypt_rsa();
+    println!();
+    test_decrypt_rsa();
 }
